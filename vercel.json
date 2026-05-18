@@ -1,0 +1,29 @@
+{
+  "buildCommand": "next build",
+  "devCommand": "next dev --turbopack",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodeVersion": "22.x",
+  "env": [],
+  "envPrefix": "NEXT_PUBLIC_",
+  "regions": ["sfo1"],
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=60, stale-while-revalidate=120"
+        }
+      ]
+    }
+  ],
+  "redirects": [],
+  "rewrites": []
+}

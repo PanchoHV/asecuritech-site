@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: defaultKeywords,
   applicationName: siteConfig.name,
+  icons: {
+    icon: "https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Vertical-Fondo-Blanco.webp",
+    shortcut: "https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Vertical-Fondo-Blanco.webp",
+    apple: "https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Vertical-Fondo-Blanco.webp"
+  },
   robots: {
     index: true,
     follow: true
@@ -32,12 +37,23 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
-    locale: "es_EC"
+    locale: "es_EC",
+    images: [
+      {
+        url: "https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Generated%20Image%20April%2014%2C%202026%20-%206_24PM.webp",
+        width: 1200,
+        height: 630,
+        alt: "Asecuritech"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "Asecuritech | Seguridad inteligente",
-    description: siteConfig.description
+    description: siteConfig.description,
+    images: [
+      "https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Generated%20Image%20April%2014%2C%202026%20-%206_24PM.webp"
+    ]
   }
 };
 

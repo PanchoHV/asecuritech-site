@@ -3,16 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
-import { siteConfig } from "@/lib/site";
 import { trackEvent } from "@/lib/tracking";
 
 const navItems = [
-  { label: "Zephira", href: "/zephira" },
-  { label: "SentinelOS", href: "/sentinelos" },
+  { label: "Home", href: "/" },
   { label: "Empresas", href: "/empresas" },
+  { label: "Personas", href: "/personas" },
+  { label: "¿Cómo funciona?", href: "/como-funciona" },
+  { label: "Aliados", href: "/aliados" },
   { label: "Gobierno", href: "/gobierno" },
-  { label: "Integradores", href: "/integradores" },
-  { label: "Blog", href: "/blog" }
+  { label: "Contacto", href: "/contacto" }
 ];
 
 export default function Navbar() {
@@ -20,28 +20,39 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const cta = useMemo(() => {
-    if (pathname.startsWith("/zephira")) {
-      return { label: "Descargar app", href: "/zephira/descargar" };
+    if (pathname.startsWith("/empresas")) {
+      return { label: "Agendar demo", href: "/contacto" };
     }
-    if (pathname.startsWith("/sentinelos") || pathname.startsWith("/empresas") || pathname.startsWith("/gobierno") || pathname.startsWith("/integradores")) {
-      return { label: "Solicitar demo", href: "/demo" };
+
+    if (pathname.startsWith("/personas")) {
+      return { label: "Probar gratis", href: "/personas" };
     }
-    if (pathname.startsWith("/test-seguridad")) {
-      return { label: "Ver mi resultado", href: "/test-seguridad#test" };
+
+    if (pathname.startsWith("/aliados")) {
+      return { label: "Quiero ser aliado", href: "/contacto" };
     }
-    return { label: "Haz el test", href: "/test-seguridad" };
+
+    if (pathname.startsWith("/gobierno")) {
+      return { label: "Reunión institucional", href: "/contacto" };
+    }
+
+    return { label: "Obtener Protección", href: "/personas" };
   }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="container-page flex min-h-[72px] items-center justify-between gap-4">
-        <Link href="/" className="inline-flex min-h-[48px] min-w-[48px] items-center text-lg font-semibold tracking-tight">
-          Asecuritech
+        <Link href="/" className="inline-flex min-h-[48px] min-w-[48px] items-center">
+          <img
+            src="https://pub-dc06325214ac4e9a8959030cf5f65654.r2.dev/optimized-Logo-Asecuritech.webp"
+            alt="Asecuritech"
+            className="h-10 w-auto sm:h-11"
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {navItems.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             return (
               <Link
                 key={item.href}

@@ -1,0 +1,651 @@
+.flow {
+  position: relative;
+  min-height: 860px;
+  margin-top: 2.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(0, 82, 204, 0.17), transparent 24%),
+    radial-gradient(circle at 22% 18%, rgba(255, 107, 0, 0.07), transparent 20%),
+    radial-gradient(circle at 78% 18%, rgba(34, 211, 238, 0.07), transparent 20%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 34px 95px rgba(0, 0, 0, 0.26);
+}
+
+.flow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+}
+
+.flow::after {
+  content: "";
+  position: absolute;
+  inset: auto 16% -20% 16%;
+  z-index: -1;
+  height: 250px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 107, 0, 0.13), rgba(34, 211, 238, 0.14), rgba(0, 82, 204, 0.18));
+  filter: blur(38px);
+  opacity: 0.72;
+}
+
+.connectionLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connection {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 760;
+  stroke-dashoffset: 760;
+  opacity: 0;
+}
+
+.flowRunning .connection {
+  opacity: 1;
+}
+
+.flowRunning .connection1 {
+  animation: howPathDraw 2.15s ease-out 0s forwards;
+}
+
+.flowRunning .connection2 {
+  animation: howPathDraw 2.1s ease-out 3s forwards;
+}
+
+.flowRunning .connection3 {
+  animation: howPathDraw 3.6s ease-out 6s forwards;
+}
+
+.centerStage {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+}
+
+.sosButton {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 242px;
+  height: 242px;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.sosButton:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.95);
+  outline-offset: 10px;
+}
+
+.sosWave,
+.sosWaveDelay {
+  position: absolute;
+  inset: -18px;
+  border-radius: inherit;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.16), rgba(0, 82, 204, 0.1) 42%, transparent 68%);
+  animation: howSosWave 3.2s ease-out infinite;
+}
+
+.sosWaveDelay {
+  animation-delay: 1.45s;
+}
+
+.flowPreview .sosWave,
+.flowPreview .sosWaveDelay,
+.flowRunning .sosWave,
+.flowRunning .sosWaveDelay {
+  border-color: rgba(125, 211, 252, 0.36);
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.24), rgba(34, 211, 238, 0.14) 45%, transparent 70%);
+}
+
+.sosRing {
+  position: absolute;
+  inset: 12px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
+    rgba(10, 14, 20, 0.56);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -24px 50px rgba(0, 82, 204, 0.12),
+    0 28px 70px rgba(0, 0, 0, 0.32);
+}
+
+.sosImageWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 142px;
+  height: 142px;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0.035),
+    0 18px 44px rgba(0, 0, 0, 0.32);
+}
+
+.sosImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sosStatus {
+  position: absolute;
+  bottom: -42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 14, 20, 0.78);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(12px);
+  white-space: nowrap;
+}
+
+.sosStatus span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.sosStatus strong {
+  font-size: 0.78rem;
+  color: #7dd3fc;
+}
+
+.nodesLayer {
+  position: relative;
+  z-index: 4;
+  min-height: 860px;
+  pointer-events: none;
+}
+
+.flowHintTop {
+  width: min(720px, calc(100% - 56px));
+  margin: 16px auto 0;
+  padding: 11px 14px;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  border-radius: 14px;
+  background: rgba(8, 12, 20, 0.54);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(226, 232, 240, 0.92);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.node {
+  position: absolute;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  width: min(280px, 28vw);
+  transform-origin: center;
+}
+
+.node1 {
+  left: 9%;
+  top: 8%;
+}
+
+.node2 {
+  right: 8%;
+  top: 8%;
+}
+
+.node3 {
+  left: 50%;
+  top: 61%;
+  margin-left: -140px;
+}
+
+.nodeCircle {
+  --node-border: rgba(255, 255, 255, 0.18);
+  --node-glow: rgba(255, 255, 255, 0.12);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  overflow: visible;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0.025),
+    0 22px 52px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.human {
+  --node-border: rgba(255, 107, 0, 0.72);
+  --node-glow: rgba(255, 107, 0, 0.28);
+  --node-pill: rgba(255, 107, 0, 0.24);
+}
+
+.tech {
+  --node-border: rgba(34, 211, 238, 0.72);
+  --node-glow: rgba(34, 211, 238, 0.26);
+  --node-pill: rgba(34, 211, 238, 0.22);
+}
+
+.response {
+  --node-border: rgba(0, 82, 204, 0.78);
+  --node-glow: rgba(0, 82, 204, 0.32);
+  --node-pill: rgba(0, 82, 204, 0.25);
+}
+
+.nodeImage {
+  width: 112px;
+  height: 112px;
+  border-radius: inherit;
+  object-fit: cover;
+  filter: grayscale(1) saturate(0) contrast(0.92) brightness(0.86);
+  opacity: 0.74;
+  transition:
+    filter 420ms ease,
+    opacity 420ms ease,
+    transform 420ms ease;
+}
+
+.nodeOrbit {
+  position: absolute;
+  inset: -9px;
+  width: calc(100% + 18px);
+  height: calc(100% + 18px);
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+.nodeOrbitTrack,
+.nodeOrbitEnergy {
+  fill: none;
+  stroke-width: 2.2;
+}
+
+.nodeOrbitTrack {
+  stroke: rgba(255, 255, 255, 0.11);
+  opacity: 0;
+}
+
+.nodeOrbitEnergy {
+  stroke: var(--node-border);
+  stroke-linecap: round;
+  stroke-dasharray: 352;
+  stroke-dashoffset: 352;
+  filter: drop-shadow(0 0 12px var(--node-glow));
+}
+
+.flowPreview .nodeOrbitTrack,
+.flowRunning .nodeOrbitTrack {
+  opacity: 1;
+}
+
+.flowRunning .node1 .nodeOrbitEnergy {
+  animation: howOrbitDraw 0.85s ease-out 2.15s forwards;
+}
+
+.flowRunning .node2 .nodeOrbitEnergy {
+  animation: howOrbitDraw 0.9s ease-out 5.1s forwards;
+}
+
+.flowRunning .node3 .nodeOrbitEnergy {
+  animation: howOrbitDraw 1.4s ease-out 9.6s forwards;
+}
+
+.nodeActive .nodeOrbitEnergy {
+  stroke-dashoffset: 0;
+}
+
+.nodeActive .nodeCircle {
+  border-color: var(--node-border);
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0.035),
+    0 0 42px var(--node-glow),
+    0 26px 64px rgba(0, 0, 0, 0.32);
+  transform: translateY(-4px);
+}
+
+.nodeActive .nodeImage {
+  filter: grayscale(0) saturate(1.04) contrast(1) brightness(1);
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.response .nodeImage {
+  object-position: center center;
+  transform: translateX(1px);
+}
+
+.response.nodeActive .nodeImage {
+  transform: translateX(1px) scale(1.02);
+}
+
+.nodeTime {
+  position: absolute;
+  right: 3px;
+  bottom: 7px;
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.74);
+  background: rgba(10, 14, 20, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.nodeActive .nodeTime {
+  color: white;
+  background: var(--node-pill);
+  border-color: var(--node-border);
+}
+
+.nodeCopy {
+  width: min(280px, 100%);
+  max-height: 0;
+  margin-top: 0;
+  padding: 0 18px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+    rgba(10, 14, 20, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 48px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    max-height 360ms ease,
+    margin-top 360ms ease,
+    padding 360ms ease,
+    opacity 360ms ease,
+    transform 360ms ease,
+    border-color 360ms ease;
+}
+
+.nodeActive .nodeCopy {
+  max-height: 220px;
+  margin-top: 18px;
+  padding: 18px;
+  opacity: 1;
+  transform: translateY(0);
+  border-color: var(--node-border);
+}
+
+.nodeLabel {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.nodeCopy h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.08rem;
+  line-height: 1.12;
+  font-weight: 800;
+}
+
+.nodeCopy p:last-child {
+  margin: 10px 0 0;
+  color: rgba(226, 232, 240, 0.86);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+@keyframes howSosWave {
+  0% {
+    transform: scale(0.86);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+}
+
+@keyframes howPathDraw {
+  from {
+    stroke-dashoffset: 760;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes howOrbitDraw {
+  from {
+    stroke-dashoffset: 352;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .flow {
+    min-height: auto;
+    padding: 34px 16px 22px;
+  }
+
+  .connectionLayer {
+    display: none;
+  }
+
+  .centerStage {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: grid;
+    place-items: center;
+    transform: none;
+    margin-bottom: 74px;
+  }
+
+  .sosButton {
+    width: 212px;
+    height: 212px;
+  }
+
+  .sosImageWrap {
+    width: 124px;
+    height: 124px;
+  }
+
+  .nodesLayer {
+    min-height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    justify-items: center;
+    gap: 12px;
+  }
+
+  .node,
+  .node1,
+  .node2,
+  .node3 {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    margin-left: 0;
+    width: 100%;
+    transform: none;
+  }
+
+  .nodeCircle {
+    width: 108px;
+    height: 108px;
+  }
+
+  .nodeImage {
+    width: 92px;
+    height: 92px;
+  }
+
+  .nodeCopy {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .nodeActive .nodeCopy {
+    padding: 14px;
+  }
+
+  .flowHintTop {
+    width: min(640px, 100%);
+    margin: 14px auto 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 720px) {
+  .nodesLayer {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin: 0 auto;
+    gap: 18px;
+  }
+
+  .node {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin-right: auto;
+    margin-left: auto;
+    justify-items: center;
+  }
+
+  .nodeCopy {
+    margin-top: 0;
+  }
+
+  .nodeActive .nodeCopy {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 460px) {
+  .flow {
+    margin-top: 2rem;
+    padding-inline: 12px;
+  }
+
+  .sosButton {
+    width: 190px;
+    height: 190px;
+  }
+
+  .sosImageWrap {
+    width: 112px;
+    height: 112px;
+  }
+
+  .sosStatus {
+    bottom: -48px;
+    max-width: calc(100vw - 72px);
+    white-space: normal;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .node {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .nodeCopy {
+    margin-top: 0;
+  }
+
+  .nodeActive .nodeCopy {
+    margin-top: 14px;
+  }
+
+  .flowHintTop {
+    margin: 12px auto 0;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sosWave,
+  .sosWaveDelay,
+  .flowRunning .connection,
+  .flowRunning .nodeOrbitEnergy {
+    animation: none;
+  }
+
+  .connection,
+  .nodeOrbitEnergy {
+    stroke-dashoffset: 0;
+  }
+
+  .node,
+  .nodeCircle,
+  .nodeImage,
+  .nodeCopy {
+    transition: none;
+  }
+}

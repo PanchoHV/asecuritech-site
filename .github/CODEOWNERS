@@ -1,0 +1,29 @@
+# CODEOWNERS file for Asecuritech project
+# Defines code ownership for automated reviews and access control
+
+# Root config files
+*.json @pancho
+*.ts @pancho
+*.tsx @pancho
+
+# API routes - backend team
+/src/app/api/ @pancho
+
+# Components - UI team  
+/src/components/ @pancho
+
+# Pages - content team
+/src/app/(marketing)/ @pancho
+/src/app/(legal)/ @pancho
+/src/app/(conversion)/ @pancho
+
+# Styles & configuration
+/src/styles/ @pancho
+tailwind.config.ts @pancho
+postcss.config.js @pancho
+
+# Lib utilities
+/src/lib/ @pancho
+
+# GitHub workflows
+.github/ @pancho
